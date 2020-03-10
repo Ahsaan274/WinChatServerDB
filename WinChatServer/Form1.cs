@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Net.Sockets;
 using System.Collections;
+using Newtonsoft.Json;
 
 namespace WinChatServer
 {
@@ -23,7 +24,7 @@ namespace WinChatServer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-          //listBox1.DataSource = clientsList.    
+          
         }
         public static void broadcast(string msg, string uName, bool flag)
         {
@@ -137,7 +138,7 @@ namespace WinChatServer
             Thread ctThread = new Thread(starter);
             ctThread.Start();
         }
-
+       
         private void doChat(TcpClient clientSocket, string clNo)
         {
             int requestCount = 0;
@@ -162,17 +163,21 @@ namespace WinChatServer
                     //broadcastSocket = (TcpClient)Item.Value;
                     // NetworkStream broadcastStream = broadcastSocket.GetStream();
                     string[] abc = dataFromClient.Split(new string[] { "::"},StringSplitOptions.None );
-                    if (abc[0] == "GETPROC")
+
+                    if (abc[0] == "GET")
                     {
-                        dataFromClient = Query.getData1(abc[1]);  
+                        dataFromClient = Query.getData1(abc[1]);
                     }
+                    if (abc[0] == "GETPROC") {
+                        dataFromClient = Query.execProc(abc[1]);
+                    }        
+
                     Byte[] broadcastBytes = null;
                     broadcastBytes = Encoding.ASCII.GetBytes(dataFromClient);
                     networkStream.Write(broadcastBytes, 0, broadcastBytes.Length);
                     //broadcastStream.Flush();
                     ////////////////////
                     rCount = Convert.ToString(requestCount);
-
                    // broadcast(dataFromClient, clNo, true);
                 }
                 catch (Exception ex)
@@ -185,5 +190,4 @@ namespace WinChatServer
             RemoveClient(clNo);
         }
     }
-     
 }

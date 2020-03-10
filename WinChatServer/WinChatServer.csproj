@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\clsConnection.cs" />
+    <Compile Include="Classes\Procedure1.cs" />
     <Compile Include="Classes\Query.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

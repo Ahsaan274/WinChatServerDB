@@ -9,8 +9,8 @@ namespace WinChatServer
 {
     class clsConnection
     {
-        public static string Host = "192.168.2.8";
-        static  List<string> IPList = new List<string>();
+        public static string Host = "";
+        static List<string> IPList = new List<string>();
         
         public static void Con()
         {
